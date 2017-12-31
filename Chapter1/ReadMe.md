@@ -33,7 +33,7 @@ that the module really needs in order to be able to fulfill its business require
 A modular system typically provides ***module management*** and ***configuration management***. *Module management* refers to the capacity to install, uninstall, and deploy a module. The installation could be done from a module repository, for example. In some cases, a module could be deployed instantly without
 requiring that the system is restarted. *Configuration management* specifies the capacity to dynamically configure modules and specify the dependencies between them.
 
-####Tight Coupling vs. Loose Coupling
+#### Tight Coupling vs. Loose Coupling
 
 *Loose coupling* is encountered when a class doesn’t directly use an instance of another class but uses an intermediate layer that primarily defines the object to be injected. One framework that defines loose coupling is the Spring framework, where the dependency objects are being injected by the container
 into another object. Loosely coupled modules can be altered with less effort. Loose coupling is generally accomplished by using small or medium-sized modules. Replacing a module won’t affect the system if the new module has the same interface as the module being replaced.
@@ -288,7 +288,7 @@ One of the main differences between modular programming and OOP is the fact that
 A monolithic application is a software application with a high level of complexity that executes an entire group of tasks in order to implement a whole use case. It doesn’t execute only a specific task or function and it doesn’t consist of any logical units that can be identified. It has the role of executing entire functions, not just particular tasks inside these functions. Monolithic applications are constructed without modularity.
 
 
-***Fig: Architecture of Monolithic Application ***
+***Fig: Architecture of Monolithic Application***
 
 ![Architecture of Monolithic Application](https://github.com/nagendramca2011/java9/blob/master/Images/Chapter1-Architecture%20of%20Monolithic%20Application.png)
 

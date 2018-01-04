@@ -79,13 +79,57 @@ As outlined in the JSR, the specific goals are to provide and enable:
 
 > * Improved performance, by applying whole-program optimization techniques to complete configurations of platform, library, and application components.
 ## Downloading and Installing
+[Java9](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)
 
 Project Jigsaw was merged into JDK 9, so if you download JDK 9, you will have Jigsaw included by default.
 
 The installation is straightforward. You have to set the environment variables on your PC to point to the new JDK. For this, choose the root folder where your Java 9 installation resides. If you use Windows and JDK 9 is in the PATH, you can verify that the environment variables have been successfully set by opening a command line and typing java -version.
 
+## Goals of Project Jigsaw
+Before Java 9, JDK was a big, indivisible monolith with more than 5.500 classes. It was impossible to split it into more pieces. The only way to use it was to install it entirely on the target platform. The Java runtime represented by the rt.jar file was also monolithic and couldn’t be split into more parts. JDK consisted of rt.jar, which contained almost all the compiled classes for the base Java runtime. rt.jar grouped together all the runtime class files and had to be placed on the class path in order for the user to be able to access the Java API classes. Inside rt.jar there were—besides the popular java.* and javax.* packages— other packages such as com.oracle.*, com.sun.*, jdk.internal.*, jdk.management.*, jdk.net.*, sun.*, and more. There was no way to split rt.jar into different files. In Java 9, the focus was to break the monolithic JDK into modules and to completely remove the rt.jar file.
 
-Question & Answers:
+The JDK had to be modularized because, after more than 22 years since its first release, it had grown so much that it effectively became too big and too complex. Installing JDK on small devices can be cumbersome in certain situations, because not all small devices have enough CPU, memory, or disk space to be able to hold the entire JDK. Besides that, it’s a huge waste of memory to install the entire monolithic JDK and use only a small portion of it in your application. This problem relates not only to small devices, but to big devices as well, like the ones used to hold the applications in the cloud. Important additional costs could occur using the cloud because the use of hardware resources isn’t optimized.
+
+* ***JDK 1.0***, released at the beginning of 1996, was extremely small and tiny in comparison to the actual release of the JDK. The first version of Java had only a few standard packages: java.lang, java.io, java.applet, java.awt, java.net, and java.util. There were a total of 8 packages and 212 classes and interfaces.
+* ***JDK 1.1*** had 504 classes and interfaces.
+* ***JDK 1.2***, released in 1998, tripled the number of classes and interfaces to 1,520.
+* ***JDK 1.4*** had 2,991 classes and interfaces
+* ***JSE 8.0*** had 4,240 classes and interfaces
+
+Previous to **JDK 9**, for a simple program that prints a string in the console, a great number of classes had to be loaded. For example, the base module in JDK 7 depended on a lot of other modules such as **logging, security-smartcardio, security-sunec, security-resources, resources, charsets, client, security-misc, securityjsse, security-kerberos**, and others. All these modules had to be loaded in order to print a basic and very simple “Hello world!” in the console.
+
+## New Concepts Introduced in Jigsaw
+
+Project Jigsaw introduces the new concept of *module* as a central software component that is built inside the Java platform. A module represents a collection of packages. It has a module descriptor that specifies the modules upon which the module depends and also specifies its exported packages that are made available for external use. **A module can be packaged into a new format called modular JAR, which is a JAR file that also contains a module-info.class file. **A modular JAR file can function as a module in Java 9, but also as a regular JAR file on the class path in Java 8 or earlier. There’s another new format called **JMOD**, which is similar to a modular JAR but can also contain native code. A module can be open or not.
+
+The new notion of *module path* is introduced in Project Jigsaw. Module path is the module equivalent of the class path and consists of a list of directories that contain modules.
+
+Jigsaw also introduces a *linking phase* in which a group of modules is assembled by a new linking tool, called Jlink, into a custom binary runtime image. Linking can create a full Java development environment and can also create a Java runtime system incorporated in a program.
+
+Java 9 adds many new options for both the Java compiler and the Java launcher in order to allow the compilation and running of modules.
+
+Jigsaw also introduces new notions like* unnamed module*, *open module*, and *automatic module*.
+
+## Strong Encapsulation
+
+According to the official Jigsaw specification, “strong encapsulation allows a component to declare which of its public types are accessible to other components and which are not.” Strong encapsulation’s role is to forbid code from accessing classes in packages that aren’t exported by their containing modules, or in packages whose containing modules aren’t needed by the module that contains the code.
+
+Strong encapsulation couldn’t be achieved without having a concept like modules, because in Jigsaw the modules represent the base on which the principles of strong encapsulation are applied. Jigsaw allows modules to export only specific packages. The accessibility of modules is provided by their boundaries. Strong encapsulation is accomplished in Jigsaw using the definitions of the modules, where we are able to specify what types are accessible. Strong encapsulation hides module’s internals and prevents them from external access. It also makes it more difficult to achieve reflective access.
+
+In **Java 9**, calling the method **setAccessible()** won’t work unless the object is accessible before the class. To be accessible, the corresponding package has to be exported, and the module has to be read. If both conditions are met, then it is accessible, so the method can be applied to make, for instance, a private field available. Strong encapsulation restricts access even when the accessing class in the target class is in the same class loader. By the way, *strong encapsulation is not dependent on class loaders*.
+
+## Reliable Configuration
+
+*Reliable configuration* is a strong feature introduced in JDK 9. Open JDK states that “reliable configuration replaces the class path mechanism with a means for program components to declare explicit dependences upon one another.” Reliable configuration is based on the capacity to declare dependencies between modules. It allows us to know at compile-time if a module is missing or a dependency isn’t fulfilled. This is something we could’t achieve in versions before Java 9. In JDK 9, modules can manifest their dependencies
+on other modules, and the module system certifies that every module dependence is achieved.
+
+The ground for reliable configuration is represented by the readability connections that exist in the module system. Dependencies are analyzed and enforced at both **compile-time** and **runtime**.
+
+## Enhancements Provided by Jigsaw
+
+Jigsaw also provides enhancements in three important areas: *security*, *scalability*, and *performance*.
+
+## Question & Answers
 1. What is dependency hell? 
 >Dependency hell happened when a package had a dependency not on another package, but only on a version of that package. 
 
@@ -105,5 +149,17 @@ Question & Answers:
 >* Enable improved application performance; and
 >* Enable the Java SE Platform, and the JDK, to scale down for use in small computing devices and dense cloud deployments.
 
+6.What is JMOD?
+>It is a modular JAR but can also contain native code.
+
+7.What is Strong Encapsulation? 
+>Strong encapsulation allows a component to declare which
+of its public types are accessible to other components and which are not.
+
+8.What is Reliable Configuration?
+
+>Reliable configuration replaces the class path mechanism for program components to declare explicit dependences upon one another.
+
+### Abbrevations
 
 JSR - Java Specification Requirements

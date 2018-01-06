@@ -182,6 +182,7 @@ Fig: The jre directory, tools.jar, and rt.jar were removed in JDK 9
 
 
 Fig: The final structure of the JDK 9.
+
 ![The final structure of the JDK 9](https://github.com/padamaranagen/java9/blob/master/Images/chapter2-the%20final%20structure%20of%20jdk9.png)
 
 As you can see, the jre directory doesn’t exist anymore, and a new conf directory was added. The conf directory contains the configuration files that customize the JDK or the runtime. It contains only the files that should be edited. The files that should not be edited are not located in the conf directory anymore. This is important because the new layout provides a clear separation between the configuration files that are allowed to be changed and the ones that aren’t. In the past it was a risk to change a configuration file because you couldn’t know in advance if you were even allowed to change it, meaning the application might not start anymore.
@@ -234,5 +235,5 @@ of its public types are accessible to other components and which are not.
 
 ### Abbrevations
 
-JSR - Java Specification Requirements
-OSGi - Open Gateway Service Intitiavite
+* JSR - Java Specification Requirements
+* OSGi - Open Gateway Service Intitiavite

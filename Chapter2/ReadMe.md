@@ -27,7 +27,7 @@ Prior to JDK 9, the standard style for developing Java applications was to inser
 
 JAR hell is a common problem encountered prior to JDK 9. *If there were more libraries on the **class path with different versions*** and each library depended on another library, then there was said to be a JAR hell problem on the class path.This so-called dependency hell happened when a package had a dependency not on another package, but only on a version of that package. There were different variations of dependency hell, taking into account the environment being used. The problem with JAR hell is that you could have conflicts on the class path, especially when it contained many JARs. For instance, one library could have two or more different versions of a specific class on the class path. The class path wasn’t the best solution because JAR files aren’t components, and therefore we can’t exactly know if something is missing or is conflicting.
 
-If a specific class wasn’t found on the classpath, ***a runtime exception was triggered—not during the launch of the application but at a later point when, due to an action performed by the user, the missing class was invoked*. The runtime didn’t have the capacity to identify all the existing dependencies until it had to access them. It would have been preferable to have all the errors displayed right during the start of the application and not at a later point***.
+If a specific class wasn’t found on the classpath, **a runtime exception was triggered—not during the launch of the application but at a later point when, due to an action performed by the user, the missing class was invoked*. The runtime didn’t have the capacity to identify all the existing dependencies until it had to access them. It would have been preferable to have all the errors displayed right during the start of the application and not at a later point**.
 
 ## What is Project Jigsaw?
 
@@ -129,6 +129,78 @@ The ground for reliable configuration is represented by the readability connecti
 
 Jigsaw also provides enhancements in three important areas: *security*, *scalability*, and *performance*.
 
+### Security
+Java had a considerable amount of security issues in the past. Prior to JDK 9, as mentioned, there was no encapsulation across package boundaries. Hence, security is a very important subject in Jigsaw, being one of the key factors in some of the implemented design considerations. In Java 9, some portions of the code can’t be accessed directly anymore. Jigsaw improves security significantly and greatly reduces the security risks by hiding the JDK internal APIs. We call this the *encapsulation of the JDK internal APIs*. They can now be handled only within the JDK itself. To improve security, it was not enough to only encapsulate the JDK internal APIs— its number of uses was decreased too. By specifying module boundaries, code is no longer reachable from outside of the module unless it’s explicitly defined so. By default, it’s not reachable from outside.
+
+Security is improved by the newly introduced strong encapsulation mechanism, which hides module’s internals. Critical source code is hidden and is not accessible from outside unless absolutely necessary. Attempting to access a public JDK internal type results in an access error. This is why code that uses internal APIs no longer works starting with Java 9.
+
+In Jigsaw, the mechanisms that allow access to internal classes using  reflection have been hardened. This is a great improvement because in the past the benefit of accessing internal JDK classes resulted in many security incidents in the Java platform. As the number of internal JDK classes decreases 
+in Java 9, so do the number of potential breaches.
+
+Prior to JDK 9, Java had a serious issue regarding the fact that its classeswere accessible from external code running in the same environment. It had very limited ways of restricting the access to its code from outside. In order to restrict package access, Java used the method checkPackageAccess(String packageName) of class  *java.lang.SecurityManager*. This method gets a list of restricted packages from calling j*ava.security.Security.getProperty("package.access")* and checks whether the parameter packageName is between the retrieved packages. If not, then the method throws a SecurityException. If packageName is found, then the method checkPermission() is called. Some of these security problems from the past were related to the fact that the software developers sometimes forgot to call the checkPackageAccess() method in code everywhere it was necessary. If this check isn’t done everywhere, then the code can be accessed from outside and a big security breach is opened, causing potential damage. It was the responsibility of every JCP developer to be careful and not forget to put the checkPackageAccess()
+call everywhere it was necessary.
+
+### Scalability and Performance
+
+Jigsaw allows developers to create their own Java Runtime Environments (JREs) that contain only the modules they need. A great number of small devices benefit from the prospect of being able to group only the functionality that is strictly required by the running Java software application.
+
+Performance is enhanced during the class loading process because the Java Virtual Machine now knows where the location of a class is. Because we know in advance all the classes that a class refers to, the JVM can eventually perform optimizations that will result in a performance increase. Before Java 9, the JVM had to open every JAR file and **perform a linear search in order to find a class**, which imposed a huge cost on performance.
+
+The removal of **rt.jar** in Java 9 was a good design decision with respect to performance because it allowed the introduction of a new productive storage system. The performance of Java applications has been improved in Java 9, especially at startup time. For this, the structure of Java runtime has been modified. There’s now enough potential for future performance optimizations because portions of code are reached only by the modules they depend on.
+
+The degree of scalability of the Java platform is increased by allowing developers to create smaller and more optimized deployments that help reduce the amount of memory needed on the corresponding running device. The new custom runtime images contain only the specific libraries and the minimum number of dependencies needed to run a Java application. There’s no longer a requirement to install the entire JDK. It’s possible to select exactly the modules needed by an application.
+
+# Other Generalities
+
+## New Keywords in Java 9
+Module is a restricted keyword that acts like a keyword only in relation to a module declaration. When a module isn’t used in connection with a module declaration, then the word **module** can further be used as an identifier. This means that if we used the word module to define the name of a variable, an instance variable, or a method, we don’t have to change it.
+
+Other restricted keywords introduced in Java 9 include **exports**, **requires**, **provides**, **uses**, **with**, **to**, **transitive**, and **opens**.
+
+##  No Versioning in Jigsaw
+
+Versioning is not supported in Project Jigsaw. The JCP team included versioning in the first releases of Jigsaw but then decided to leave it out due to the complexity and complications that subsequently occurred. The decision was based on the fact that build tools like Gradle or Maven have better mechanisms to handle this complicated problem. Project Jigsaw relies on these build tools for solving versioning resolution or dealing with different conflicts. Jigsaw allows you to declare a version in the meta information of a module, but this version isn’t taken into account by the module system. 
+
+## Platform Modularization
+One of the most important roles of Project Jigsaw is to split the JDK into modules. The resulting modules can be divided into three distinct categories: **standard modules**, **JDK-specific modules**, and **JDK-internal modules**.
+
+Before Java 9, *rt.jar* contained many publicly accessible APIs that were planned for public use. It was possible to use them when writing your own code. Among the publicly accessible APIs there are plenty that are part of the standard Java SE. These packages start with **java.*** and **javax.*** and are specified by JCP. Other packages that form the publicly accessible APIs, but are not part of the standard Java SE, are the **jdk.*** and **com.sun.*** packages. These packages are not part of the standard Java SE because they’re intended to be used by tools that interact with the Java Virtual Machine, for instance. It doesn’t make sense to make them part of the standard Java Standard Edition.
+
+Besides the supported APIs, there are also unsupported APIs. Most of them reside in the **sun.* **package. They’re not meant to be used publicly. A survey organized by Oracle revealed that the most popular unsupported APIs are **sun.misc.Base64Encoder, sun.misc.Unsafe, and sun.misc.Base64Decoder**. Oracle classified the APIs based on their usage and organized them into critical and non-critical. The non-critical APIs have very little usage outside the JDK.
+
+# New Structure of the JRE and JDK
+In order to provide the means for creating runtime images, the binary structure of the JDK and JRE was changed in Java 9. Due to the introduction of modules, there’s no difference between the JDK and the JRE. Every tool that depends on **rt.jar** had to be changed in order to work further properly in Java 9.
+
+Fig: The Structure of the JDK prior to java9
+![The Structure of the JDK prior to java9](https://github.com/padamaranagen/java9/blob/master/Images/chapter2-The%20Structure%20of%20jdk%20prior%20to%20java9.png)
+
+Before JDK 9, there were two bin and two lib directories. The lib directory from the top level contained classes for tools, and the lib directory from the jre directory contained the runtime classes. The lib directory also contained configuration files, security policy files, and other types of files.
+
+Fig: The jre directory, tools.jar, and rt.jar were removed in JDK 9
+
+![The jre directory, tools.jar, and rt.jar were removed in JDK 9](https://github.com/padamaranagen/java9/blob/master/Images/chapter2-jre%20directory%20removed)
+
+
+Fig: The final structure of the JDK 9.
+![The final structure of the JDK 9](https://github.com/padamaranagen/java9/blob/master/Images/chapter2-the%20final%20structure%20of%20jdk9.png)
+
+As you can see, the jre directory doesn’t exist anymore, and a new conf directory was added. The conf directory contains the configuration files that customize the JDK or the runtime. It contains only the files that should be edited. The files that should not be edited are not located in the conf directory anymore. This is important because the new layout provides a clear separation between the configuration files that are allowed to be changed and the ones that aren’t. In the past it was a risk to change a configuration file because you couldn’t know in advance if you were even allowed to change it, meaning the application might not start anymore.
+
+The **rt.jar** and **tools.jar** files have been completely removed. The bin directory, which is now a single one, contains all the launchers. The new format of the JDK is more suitable for future optimizations than the old format.
+
+
+## Differences Between OSGi and Jigsaw OSGi
+OSGi (Open Service Gateway Initiative) is a well-known framework that allows developing modular applications in the Java programming language. The  specification for implementing module systems in Java using OSGi can be found in the document JSR 291 – Dynamic Component Support for Java SE, which was
+released in August 2007.
+
+* One major difference between OSGi and Jigsaw is the fact that OSGi supports versioning, but Jigsaw does only at a low degree.
+* OSGi also has some features related to dynamic life-cycle that Jigsaw does not have. Besides this, OSGi provides a dynamic service registry and an upgraded security model.
+* Jigsaw is more secure than OSGi because its security mechanism can’t be bypassed. The security mechanism from OSGi can be bypassed. The OSGi bundles don’t give the same level as security compared to the Jigsaw modules. * Jigsaw isn’t intended to be a replacement for OSGi. OSGi can operate very well on top of JDK 9. JCP aims to make both systems able to work in parallel and to cooperate. **It should even be possible for OSGi to treat a Jigsaw module as an OSGi bundle**.
+* There may be specific cases when OSGi is more suitable to the needs of an  application than Jigsaw. Jigsaw is more suited for software applications that don’t present an extremely high level of complexity. OSGi takes advantage of true isolation because it’s built on top of the platform. Both OSGi and Jigsaw provide isolation, but the way that’s achieved differs. In OSGi, isolation is achieved automatically because OSGi is built on top of the platform. In Jigsaw, the modules have been built inside the platform, not on top of it. They present isolation programmatically by the manner in which they are designed into the platform.
+* In general, Jigsaw has fewer features than OSGi. For instance, *Jigsaw doesn’t offer the possibility to dynamically download and load modules from a repository when an application and the virtual machine are running*. This kind of feature doesn’t exist in Jigsaw, and OSGi should be used instead for this specific case. * 
+* Project Jigsaw also offers important features *that don’t exist in OSGi*, such as **modularity at compiletime and built-in support for native libraries**. Jigsaw, in contrast to OSGi, modularizes the Java platform and introduces the new **concept** of modules as a *central program element*.
+
+
 ## Question & Answers
 1. What is dependency hell? 
 >Dependency hell happened when a package had a dependency not on another package, but only on a version of that package. 
@@ -163,3 +235,4 @@ of its public types are accessible to other components and which are not.
 ### Abbrevations
 
 JSR - Java Specification Requirements
+OSGi - Open Gateway Service Intitiavite

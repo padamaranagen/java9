@@ -17,8 +17,34 @@
 
 
 
+```
+package com.padamara.c14;
 
+public class StringConstructors {
 
+  public static void main(String[] args) {
+    char[] charArray= {'N','A','G','E','N','D','R','A','P','A','D','A','M','A','R','A'};
+    String s=new String("Nagendra");
+    
+    String firstObject=new String();
+    String secondObject=new String(s);
+    String thirdObject=new String(charArray);
+    String fourthObject=new String(charArray,0,8);
+    
+    System.out.printf("FirstObject Data=%S, %nSecondObject Data=%S, %nThirdObject Data=%S,%nFourthObject Data=%S",firstObject,secondObject,thirdObject,fourthObject);
+
+  }
+
+}
+
+Output:
+
+FirstObject Data=, 
+SecondObject Data=NAGENDRA, 
+ThirdObject Data=NAGENDRAPADAMARA,
+FourthObject Data=NAGENDRA
+
+```
 
 
 

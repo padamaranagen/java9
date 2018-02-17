@@ -18,7 +18,7 @@
 * [1] : Introduction and Test-Driving a Java Application
 * [2] : Introduction to Java Applications: Input/Output and Operators
 * [3] : Introduction to Classes, Objects, Methods and Strings
-* [4] : Control Statements: Part 1: Assignment, ++ and -- Operators
+* [4] : Control Statements: ```Part 1: Assignment, ++ and -- Operators```
 * [5] : Control Statements: Part 2:Logical Operators
 * [6] : Methods: A Deeper Look
 * [7] : Arrays and ArrayLists
@@ -44,5 +44,31 @@
 * [27] : Java Platform Module System
 * [28] : Additional Java 9 Topics
 
-[1]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers
-[2]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[3]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[4]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[5]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[6]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[7]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[8]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[9]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[10]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[11]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[12]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[13]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[14]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[15]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[16]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[17]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[18]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[19]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[19]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[20]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[21]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[22]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[23]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[24]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[25]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[26]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[27]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers[28]:https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers
+[1]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/1>
+[2]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/2>
+[3]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/3>
+[4]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/4>
+[5]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/5>
+[6]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/6>
+[7]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/7>
+[8]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/8>
+[9]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/9>
+[10]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/10>
+[11]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/11>
+[12]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/12>
+[13]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/13>
+[14]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/14>
+[15]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/15>
+[16]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/16>
+[17]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/17>
+[18]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/18>
+[19]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/19>
+[20]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/20>
+[21]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/21>
+[22]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/22>
+[23]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/23>
+[24]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/24>
+[25]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/25>
+[26]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/26>
+[27]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/27>
+[28]:<https://github.com/padamaranagen/java9/tree/master/Java9ForProgrammers/28>
